@@ -12,8 +12,8 @@ class ChatController implements IChatController {
   final int timePellet;
   List<int> pelletShow = [];
 
-  ChatController({required this.initialMessageList, required this.scrollController, required this.timePellet}){
-    for(var message in initialMessageList.reversed) {
+  ChatController({required this.initialMessageList, required this.scrollController, required this.timePellet}) {
+    for (var message in initialMessageList.reversed) {
       inflateMessage(message);
     }
   }
@@ -45,16 +45,33 @@ class ChatController implements IChatController {
   }
 
   @override
-  void loadMoreData(List<MessageModel> messageList) {}
+  void loadMoreData(List<MessageModel> messageList) {
+    // List反转后是从底部向上展示，因此消息顺序也需要进行反转
+    messageList = List.from(messageList.reversed);
+    List<MessageModel> tempList = [...initialMessageList, ...messageList];
+    pelletShow.clear();
+    for (var message in tempList.reversed) {
+      inflateMessage(message);
+    }
+    initialMessageList.clear();
+    initialMessageList.addAll(tempList);
+    if (messageStreamController.isClosed) return;
+    messageStreamController.sink.add(initialMessageList);
+  }
 
+  ///  消息滚动到底部
   void scrollToLastMessage() {
-    // TODO
+    // fix ScrollController not attached to any scroll views
+    if (!scrollController.hasClients) {
+      return;
+    }
+    scrollController.animateTo(0, duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
   }
 
   /// 设置消息时间是否可以暂时
   void inflateMessage(MessageModel message) {
     int pellet = (message.createdAt / (timePellet * 1000)).truncate();
-    if(!pelletShow.contains(pellet)){
+    if (!pelletShow.contains(pellet)) {
       pelletShow.add(pellet);
       message.showCreatedTime = true;
     } else {

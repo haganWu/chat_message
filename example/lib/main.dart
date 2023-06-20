@@ -42,7 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    chatController = ChatController(initialMessageList: _messageList, scrollController: ScrollController(),timePellet: 60);
+    chatController = ChatController(initialMessageList: _messageList, scrollController: ScrollController(), timePellet: 60);
   }
 
   @override
@@ -55,20 +55,37 @@ class _MyHomePageState extends State<MyHomePage> {
         children: [
           Expanded(child: ChatListWidget(chatController: chatController)),
           Row(
-            mainAxisAlignment:MainAxisAlignment.spaceAround ,
-            children: [ElevatedButton(onPressed: _send, child: const Text('Send'))],
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              ElevatedButton(onPressed: _loadMore, child: const Text('LoadMore')),
+              ElevatedButton(onPressed: _send, child: const Text('Send')),
+            ],
           ),
-          const SizedBox(height: 12,)
+          const SizedBox(
+            height: 12,
+          )
         ],
       ),
     );
   }
 
+  void _loadMore() {
+    var tl = DateTime.parse('2023-06-18 18:18:18').millisecondsSinceEpoch;
+    tl = tl - ++count * 1000000;
+    final List<MessageModel> messageList = [
+      MessageModel(ownerType: OwnerType.sender, content: 'Look History', createdAt: DateTime.parse('2023-06-19 18:18:18').millisecondsSinceEpoch, id: count + 2, avatar: 'https://o.devio.org/images/o_as/avatar/tx2.jpeg', ownerName: 'Imooc'),
+      MessageModel(ownerType: OwnerType.receiver, content: 'ChatGPT History - $count', createdAt: DateTime.parse('2023-06-20 08:08:08').millisecondsSinceEpoch, id: count + 3, avatar: 'https://o.devio.org/images/o_as/avatar/tx4.jpeg', ownerName: 'ChatGPT'),
+    ];
+    chatController.loadMoreData(messageList);
+  }
+
   void _send() {
     count++;
-    chatController.addMessage(MessageModel(ownerType: OwnerType.sender, content: 'Hello-$count', createdAt: DateTime.now().millisecondsSinceEpoch, id: count+2, avatar: 'https://o.devio.org/images/o_as/avatar/tx2.jpeg', ownerName: 'Imooc'));
-    Future.delayed(const Duration(milliseconds: 2000),(){chatController.addMessage(
-      MessageModel(ownerType: OwnerType.receiver, content: 'ChatGPT Response - $count', createdAt: DateTime.now().millisecondsSinceEpoch, id: count+3, avatar: 'https://o.devio.org/images/o_as/avatar/tx4.jpeg', ownerName: 'ChatGPT'),
-    );});
+    chatController.addMessage(MessageModel(ownerType: OwnerType.sender, content: 'Hello-$count', createdAt: DateTime.now().millisecondsSinceEpoch, id: count + 2, avatar: 'https://o.devio.org/images/o_as/avatar/tx2.jpeg', ownerName: 'Imooc'));
+    Future.delayed(const Duration(milliseconds: 2000), () {
+      chatController.addMessage(
+        MessageModel(ownerType: OwnerType.receiver, content: 'ChatGPT Response - $count', createdAt: DateTime.now().millisecondsSinceEpoch, id: count + 3, avatar: 'https://o.devio.org/images/o_as/avatar/tx4.jpeg', ownerName: 'ChatGPT'),
+      );
+    });
   }
 }
