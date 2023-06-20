@@ -1,18 +1,19 @@
 import 'package:chat_message/core/chat_controller.dart';
 import 'package:chat_message/models/message_model.dart';
+import 'package:chat_message/widget/default_message_widget.dart';
 import 'package:flutter/material.dart';
 
-class ChatList extends StatefulWidget {
+class ChatListWidget extends StatefulWidget {
   final ChatController chatController;
   final EdgeInsetsGeometry? padding;
 
-  const ChatList({Key? key, required this.chatController, this.padding}) : super(key: key);
+  const ChatListWidget({Key? key, required this.chatController, this.padding}) : super(key: key);
 
   @override
-  State<ChatList> createState() => _ChatListState();
+  State<ChatListWidget> createState() => _ChatListWidgetState();
 }
 
-class _ChatListState extends State<ChatList> {
+class _ChatListWidgetState extends State<ChatListWidget> {
   ChatController get chatController => widget.chatController;
 
   ScrollController get scrollController => chatController.scrollController;
@@ -30,7 +31,7 @@ class _ChatListState extends State<ChatList> {
                 itemBuilder: (BuildContext context, int index) {
                   var model = snapshot.data![index];
                   // TODO
-                  return _buildMessageWidget(key: model.key, message: model);
+                  return DefaultMessageWidget(key: model.key, messageModel: model);
                 })
             : const Center(
                 child: CircularProgressIndicator(),
@@ -55,15 +56,6 @@ class _ChatListState extends State<ChatList> {
     return Align(
       alignment: Alignment.topCenter,
       child: _chatStreamBuilder,
-    );
-  }
-
-  Widget _buildMessageWidget({required GlobalKey<State<StatefulWidget>> key, required MessageModel message}) {
-    return Container(
-      margin: const EdgeInsets.all(4),
-      padding: const EdgeInsets.only(top: 12, bottom: 12),
-      decoration: BoxDecoration(color: message.ownerType == OwnerType.receiver ? Colors.amberAccent : Colors.deepOrangeAccent),
-      child: Text('${message.ownerName} - ${message.content} -${message.avatar}', style: TextStyle(fontSize: 12, color: message.ownerType == OwnerType.receiver ? Colors.green : Colors.blueGrey)),
     );
   }
 }

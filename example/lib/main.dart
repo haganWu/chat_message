@@ -1,6 +1,6 @@
 import 'package:chat_message/core/chat_controller.dart';
 import 'package:chat_message/models/message_model.dart';
-import 'package:chat_message/widget/chat_list.dart';
+import 'package:chat_message/widget/chat_list_widget.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -53,7 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Column(
         children: [
-          Expanded(child: ChatList(chatController: chatController)),
+          Expanded(child: ChatListWidget(chatController: chatController)),
           Row(
             mainAxisAlignment:MainAxisAlignment.spaceAround ,
             children: [ElevatedButton(onPressed: _send, child: const Text('Send'))],
