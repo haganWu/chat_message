@@ -34,7 +34,7 @@ class _MyHomePageState extends State<MyHomePage> {
   int count = 0;
   final List<MessageModel> _messageList = [
     MessageModel(ownerType: OwnerType.receiver, content: 'ChatGPT是由OpenAI研发的聊天机器人程序', createdAt: DateTime.parse('2023-06-20 08:08:08').millisecondsSinceEpoch, id: 2, avatar: 'https://o.devio.org/images/o_as/avatar/tx4.jpeg', ownerName: 'ChatGPT'),
-    MessageModel(ownerType: OwnerType.sender, content: '介绍一下ChatGPT', createdAt: DateTime.parse('2023-06-20 18:18:18').millisecondsSinceEpoch, id: 1, avatar: 'https://o.devio.org/images/o_as/avatar/tx2.jpeg', ownerName: 'Imooc'),
+    MessageModel(ownerType: OwnerType.sender, content: '介绍一下ChatGPT', createdAt: DateTime.parse('2023-06-19 18:18:18').millisecondsSinceEpoch, id: 1, avatar: 'https://o.devio.org/images/o_as/avatar/tx2.jpeg', ownerName: 'Imooc'),
   ];
 
   late ChatController chatController;
@@ -42,7 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    chatController = ChatController(initialMessageList: _messageList, scrollController: ScrollController());
+    chatController = ChatController(initialMessageList: _messageList, scrollController: ScrollController(),timePellet: 60);
   }
 
   @override

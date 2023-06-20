@@ -8,28 +8,37 @@ class ChatController implements IChatController {
   final List<MessageModel> initialMessageList;
   final ScrollController scrollController;
 
-  ChatController({required this.initialMessageList, required this.scrollController});
+  // 展示时间间隔,单位:秒
+  final int timePellet;
+  List<int> pelletShow = [];
+
+  ChatController({required this.initialMessageList, required this.scrollController, required this.timePellet}){
+    for(var message in initialMessageList.reversed) {
+      inflateMessage(message);
+    }
+  }
 
   StreamController<List<MessageModel>> messageStreamController = StreamController();
 
-  void dispose(){
+  void dispose() {
     messageStreamController.close();
     scrollController.dispose();
   }
 
-  void widgetReady(){
-    if(!messageStreamController.isClosed) {
+  void widgetReady() {
+    if (!messageStreamController.isClosed) {
       messageStreamController.sink.add(initialMessageList);
     }
 
-    if(initialMessageList.isNotEmpty) {
+    if (initialMessageList.isNotEmpty) {
       scrollToLastMessage();
     }
   }
 
   @override
   void addMessage(MessageModel messageModel) {
-    if(messageStreamController.isClosed) return;
+    if (messageStreamController.isClosed) return;
+    inflateMessage(messageModel);
     initialMessageList.insert(0, messageModel);
     messageStreamController.sink.add(initialMessageList);
     scrollToLastMessage();
@@ -40,6 +49,17 @@ class ChatController implements IChatController {
 
   void scrollToLastMessage() {
     // TODO
+  }
+
+  /// 设置消息时间是否可以暂时
+  void inflateMessage(MessageModel message) {
+    int pellet = (message.createdAt / (timePellet * 1000)).truncate();
+    if(!pelletShow.contains(pellet)){
+      pelletShow.add(pellet);
+      message.showCreatedTime = true;
+    } else {
+      message.showCreatedTime = false;
+    }
   }
 }
 

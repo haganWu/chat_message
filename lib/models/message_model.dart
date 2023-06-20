@@ -28,9 +28,9 @@ class MessageModel {
   final int createdAt;
 
   // 是否展示创建时间
-  bool showCreateTime;
+  bool showCreatedTime;
 
-  MessageModel({this.id, required this.ownerType, this.ownerName, this.avatar, required this.content, required this.createdAt, this.showCreateTime = false}) : key = GlobalKey();
+  MessageModel({this.id, required this.ownerType, this.ownerName, this.avatar, required this.content, required this.createdAt, this.showCreatedTime = false}) : key = GlobalKey();
 
   factory MessageModel.fromJson(Map<String, dynamic> json) => MessageModel(ownerType: _of(json['ownerType']), content: json['content'], createdAt: json['createAt'], ownerName: json['ownerName'], avatar: json['avatar'], id: json['id']);
 

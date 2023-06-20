@@ -1,5 +1,6 @@
 import 'package:bubble/bubble.dart';
 import 'package:chat_message/models/message_model.dart';
+import 'package:chat_message/util/wechat_date_format.dart';
 import 'package:flutter/material.dart';
 
 class DefaultMessageWidget extends StatelessWidget {
@@ -45,6 +46,7 @@ class DefaultMessageWidget extends StatelessWidget {
     return Column(
       children: [
         //todo createdAt 展示时间
+        if(messageModel.showCreatedTime)_buildCreatedTime(),
         Padding(
           padding: const EdgeInsets.only(top: 10),
           child: content,
@@ -108,6 +110,14 @@ class DefaultMessageWidget extends StatelessWidget {
       messageModel.content,
       textAlign: align,
       style: TextStyle(fontSize: fontSize, color: textColor ?? Colors.black87, fontFamily: fontFamily),
+    );
+  }
+
+  _buildCreatedTime() {
+    String showTime = WechatDateFormat.format(messageModel.createdAt, dayOnly: false);
+    return Container(
+      padding: const EdgeInsets.only(top: 4),
+      child: Text(showTime),
     );
   }
 }
