@@ -1,7 +1,7 @@
 name: chat_message
 description: A new Flutter package project.
 version: 0.0.1
-homepage:
+homepage: https://github.com/haganWu/chat_message
 
 environment:
   sdk: ">=2.17.5 <3.0.0"
@@ -11,6 +11,7 @@ dependencies:
   bubble: ^1.2.1
   flutter:
     sdk: flutter
+  intl: ^0.18.1
 
 dev_dependencies:
   flutter_test:
