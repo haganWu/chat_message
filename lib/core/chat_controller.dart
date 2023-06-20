@@ -2,17 +2,26 @@ import 'dart:async';
 
 import 'package:chat_message/models/message_model.dart';
 import 'package:flutter/widgets.dart';
+import '../widget/default_message_widget.dart';
 
 class ChatController implements IChatController {
   // 初始化数据
   final List<MessageModel> initialMessageList;
   final ScrollController scrollController;
 
+  /// Provider MessageWidgetBuilder to customize your bubble style
+  final MessageWidgetBuilder? messageWidgetBuilder;
+
   // 展示时间间隔,单位:秒
   final int timePellet;
   List<int> pelletShow = [];
 
-  ChatController({required this.initialMessageList, required this.scrollController, required this.timePellet}) {
+  ChatController({
+    required this.initialMessageList,
+    required this.scrollController,
+    required this.timePellet,
+    this.messageWidgetBuilder,
+  }) {
     for (var message in initialMessageList.reversed) {
       inflateMessage(message);
     }

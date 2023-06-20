@@ -42,7 +42,12 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    chatController = ChatController(initialMessageList: _messageList, scrollController: ScrollController(), timePellet: 60);
+    chatController = ChatController(
+      initialMessageList: _messageList,
+      // messageWidgetBuilder: _diyMessageWidget,
+      scrollController: ScrollController(),
+      timePellet: 60,
+    );
   }
 
   @override
@@ -53,7 +58,16 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Column(
         children: [
-          Expanded(child: ChatListWidget(chatController: chatController)),
+          Expanded(
+              child: ChatListWidget(
+            chatController: chatController,
+            onBubbleTap: (MessageModel messageModel, BuildContext ancestor) {
+              debugPrint('onBubbleTap - ${messageModel.content}');
+            },
+            onBubbleLongPress: (MessageModel messageModel, BuildContext ancestor) {
+              debugPrint('onBubbleLongPress - ${messageModel.content}');
+            },
+          )),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -87,5 +101,14 @@ class _MyHomePageState extends State<MyHomePage> {
         MessageModel(ownerType: OwnerType.receiver, content: 'ChatGPT Response - $count', createdAt: DateTime.now().millisecondsSinceEpoch, id: count + 3, avatar: 'https://o.devio.org/images/o_as/avatar/tx4.jpeg', ownerName: 'ChatGPT'),
       );
     });
+  }
+
+  Widget _diyMessageWidget(MessageModel messageModel) {
+    return Container(
+      margin: const EdgeInsets.only(top: 4, bottom: 4),
+      padding: const EdgeInsets.only(top: 10, bottom: 10),
+      decoration: BoxDecoration(color: messageModel.ownerType == OwnerType.sender ? Colors.amberAccent : Colors.redAccent),
+      child: Text('${messageModel.ownerName}-${messageModel.content}'),
+    );
   }
 }

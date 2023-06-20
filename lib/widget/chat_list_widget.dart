@@ -6,8 +6,16 @@ import 'package:flutter/material.dart';
 class ChatListWidget extends StatefulWidget {
   final ChatController chatController;
   final EdgeInsetsGeometry? padding;
+  final OnBubbleClick? onBubbleTap;
+  final OnBubbleClick? onBubbleLongPress;
 
-  const ChatListWidget({Key? key, required this.chatController, this.padding}) : super(key: key);
+  const ChatListWidget({
+    Key? key,
+    required this.chatController,
+    this.padding,
+    this.onBubbleTap,
+    this.onBubbleLongPress,
+  }) : super(key: key);
 
   @override
   State<ChatListWidget> createState() => _ChatListWidgetState();
@@ -15,6 +23,8 @@ class ChatListWidget extends StatefulWidget {
 
 class _ChatListWidgetState extends State<ChatListWidget> {
   ChatController get chatController => widget.chatController;
+
+  MessageWidgetBuilder? get messageWidgetBuilder => chatController.messageWidgetBuilder;
 
   ScrollController get scrollController => chatController.scrollController;
 
@@ -30,8 +40,13 @@ class _ChatListWidgetState extends State<ChatListWidget> {
                 itemCount: snapshot.data?.length ?? 0,
                 itemBuilder: (BuildContext context, int index) {
                   var model = snapshot.data![index];
-                  // TODO
-                  return DefaultMessageWidget(key: model.key, messageModel: model);
+                  return DefaultMessageWidget(
+                    key: model.key,
+                    messageModel: model,
+                    messageWidget: messageWidgetBuilder,
+                    onBubbleTap: widget.onBubbleTap,
+                    onBubbleLongPress: widget.onBubbleLongPress,
+                  );
                 })
             : const Center(
                 child: CircularProgressIndicator(),
