@@ -11,7 +11,8 @@ class DefaultMessageWidget extends StatelessWidget {
   final String? fontFamily;
   final double fontSize;
   final double avatarSize;
-  final Color? textColor;
+  final Color? senderTextColor;
+  final Color? receiverTextColor;
   final Color? backgroundColor;
   final MessageWidgetBuilder? messageWidget;
   final OnBubbleClick? onBubbleTap;
@@ -23,7 +24,8 @@ class DefaultMessageWidget extends StatelessWidget {
     this.fontFamily,
     this.fontSize = 12,
     this.avatarSize = 28,
-    this.textColor,
+    this.senderTextColor,
+    this.receiverTextColor,
     this.backgroundColor,
     this.messageWidget,
     this.onBubbleTap,
@@ -89,9 +91,10 @@ class DefaultMessageWidget extends StatelessWidget {
           margin: BubbleEdges.fromLTRB(2, 0, contentMargin, 0),
           stick: true,
           nip: BubbleNip.leftTop,
-          color: backgroundColor ?? const Color.fromARGB(233, 233, 252, 19),
+          color: backgroundColor ?? Colors.lightGreen,
+          //const Color.fromARGB(233, 233, 252, 19)
           alignment: Alignment.topLeft,
-          child: _buildContentText(TextAlign.left, context),
+          child: _buildContentText(TextAlign.left, context, receiverTextColor ?? Colors.white),
         ))
       ],
     );
@@ -112,7 +115,7 @@ class DefaultMessageWidget extends StatelessWidget {
           nip: BubbleNip.rightTop,
           color: backgroundColor ?? Colors.white,
           alignment: Alignment.topRight,
-          child: _buildContentText(TextAlign.left, context),
+          child: _buildContentText(TextAlign.left, context, senderTextColor ?? Colors.black87),
         )),
         Container(
           margin: const EdgeInsets.only(right: 6),
@@ -122,14 +125,14 @@ class DefaultMessageWidget extends StatelessWidget {
     );
   }
 
-  _buildContentText(TextAlign align, BuildContext context) {
+  _buildContentText(TextAlign align, BuildContext context, Color? textColor) {
     return InkWell(
       onTap: () => onBubbleTap != null ? onBubbleTap!(messageModel, context) : null,
       onLongPress: () => onBubbleLongPress != null ? onBubbleLongPress!(messageModel, context) : null,
       child: Text(
         messageModel.content,
         textAlign: align,
-        style: TextStyle(fontSize: fontSize, color: textColor ?? Colors.black87, fontFamily: fontFamily),
+        style: TextStyle(fontSize: fontSize, color: textColor ?? Colors.white, fontFamily: fontFamily),
       ),
     );
   }

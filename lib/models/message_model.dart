@@ -34,7 +34,7 @@ class MessageModel {
 
   factory MessageModel.fromJson(Map<String, dynamic> json) => MessageModel(ownerType: _of(json['ownerType']), content: json['content'], createdAt: json['createAt'], ownerName: json['ownerName'], avatar: json['avatar'], id: json['id']);
 
-  Map<String, dynamic> toJSon() => {
+  Map<String, dynamic> toJson() => {
         'id': id,
         'ownerType': ownerType.toString(),
         'content': content,
