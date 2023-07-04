@@ -32,13 +32,13 @@ class MessageModel {
 
   MessageModel({this.id, required this.ownerType, this.ownerName, this.avatar, required this.content, required this.createdAt, this.showCreatedTime = false}) : key = GlobalKey();
 
-  factory MessageModel.fromJson(Map<String, dynamic> json) => MessageModel(ownerType: _of(json['ownerType']), content: json['content'], createdAt: json['createAt'], ownerName: json['ownerName'], avatar: json['avatar'], id: json['id']);
+  factory MessageModel.fromJson(Map<String, dynamic> json) => MessageModel(ownerType: _of(json['ownerType']), content: json['content'], createdAt: json['createdAt'], ownerName: json['ownerName'], avatar: json['avatar'], id: json['id']);
 
   Map<String, dynamic> toJson() => {
         'id': id,
         'ownerType': ownerType.toString(),
         'content': content,
-        'createAt': createdAt,
+        'createdAt': createdAt,
         'ownerName': ownerName,
         'avatar': avatar,
       };
