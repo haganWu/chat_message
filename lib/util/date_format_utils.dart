@@ -1,13 +1,16 @@
+import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 
-class WechatDateFormat {
+class DateFormatUtils {
 
   /// 日期格式化，dayOnly：只展示到天
   static String format(int millisecondsSinceEpoch,{bool dayOnly = true}) {
     // 获取当前日期
-    DateTime nowDate = DateTime.now();
+    DateTime nowDate = getZhCurrentDateTime();
+    debugPrint('打印Now日期时间：${DateFormat('yyyy年M月d日 HH:mm:ss').format(nowDate)}');
     // 传入的日期
     DateTime targetDate = DateTime.fromMillisecondsSinceEpoch(millisecondsSinceEpoch);
+    debugPrint('打印target日期时间：${DateFormat('yyyy年M月d日 HH:mm:ss').format(targetDate)}');
     String prefix = "";
     if(nowDate.year != targetDate.year) {
       prefix = DateFormat('yyyy年M月d日').format(targetDate);
@@ -25,24 +28,15 @@ class WechatDateFormat {
     if(prefix.isNotEmpty && dayOnly) {
       return prefix;
     }
+    String suffix = DateFormat('HH:mm').format(targetDate);
+    return '$prefix $suffix';
 
-    int targetHour = targetDate.hour;
-    String returnTime = "", suffix = DateFormat('h:mm').format(targetDate);
-    if(targetHour >= 0 && targetHour < 6) {
-      returnTime = '凌晨';
-    } else if(targetHour >= 6 && targetHour < 8) {
-      returnTime = '早晨';
-    } else if(targetHour >= 8 && targetHour < 11) {
-      returnTime = '上午';
-    } else if(targetHour >= 11 && targetHour < 13) {
-      returnTime = '中午';
-    } else if(targetHour >= 13 && targetHour < 18) {
-      returnTime = '下午';
-    } else if(targetHour >= 18 && targetHour < 23) {
-      returnTime = '晚上';
-    }
+  }
 
-    return '$prefix $returnTime$suffix';
-
+  static DateTime getZhCurrentDateTime(){
+    return DateTime.now().toUtc().add(const Duration(hours: 8));
+  }
+  static int getZhCurrentTimeMilliseconds(){
+    return DateTime.now().toUtc().millisecondsSinceEpoch;
   }
 }

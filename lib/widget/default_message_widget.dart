@@ -1,6 +1,6 @@
 import 'package:bubble/bubble.dart';
 import 'package:chat_message/models/message_model.dart';
-import 'package:chat_message/util/wechat_date_format.dart';
+import 'package:chat_message/util/date_format_utils.dart';
 import 'package:flutter/material.dart';
 
 typedef MessageWidgetBuilder = Widget Function(MessageModel messageModel);
@@ -67,7 +67,7 @@ class DefaultMessageWidget extends StatelessWidget {
       children: [
         if (messageModel.showCreatedTime) _buildCreatedTime(),
         Padding(
-          padding: const EdgeInsets.only(top: 10),
+          padding: const EdgeInsets.only(top: 4),
           child: content,
         )
       ],
@@ -91,10 +91,10 @@ class DefaultMessageWidget extends StatelessWidget {
           margin: BubbleEdges.fromLTRB(2, 0, contentMargin, 0),
           stick: true,
           nip: BubbleNip.leftTop,
-          color: backgroundColor ?? Colors.lightGreen,
+          color: backgroundColor ?? Colors.tealAccent,
           //const Color.fromARGB(233, 233, 252, 19)
           alignment: Alignment.topLeft,
-          child: _buildContentText(TextAlign.left, context, receiverTextColor ?? Colors.white),
+          child: _buildContentText(TextAlign.left, context, receiverTextColor ?? Colors.green),
         ))
       ],
     );
@@ -102,26 +102,29 @@ class DefaultMessageWidget extends StatelessWidget {
 
   /// 发送方 - 使用者
   _buildSender(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.max,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        // 宽度撑满
-        Flexible(
-            child: Bubble(
-          margin: BubbleEdges.fromLTRB(contentMargin, 0, 2, 0),
-          stick: true,
-          nip: BubbleNip.rightTop,
-          color: backgroundColor ?? Colors.white,
-          alignment: Alignment.topRight,
-          child: _buildContentText(TextAlign.left, context, senderTextColor ?? Colors.black87),
-        )),
-        Container(
-          margin: const EdgeInsets.only(right: 6),
-          child: _buildCircleAvatar,
-        ),
-      ],
+    return Container(
+      margin: const EdgeInsets.only(bottom: 2),
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: [
+          // 宽度撑满
+          Flexible(
+              child: Bubble(
+            margin: BubbleEdges.fromLTRB(contentMargin, 0, 2, 0),
+            stick: true,
+            nip: BubbleNip.rightTop,
+            color: backgroundColor ?? Colors.white,
+            alignment: Alignment.topRight,
+            child: _buildContentText(TextAlign.left, context, senderTextColor ?? Colors.black87),
+          )),
+          Container(
+            margin: const EdgeInsets.only(right: 6),
+            child: _buildCircleAvatar,
+          ),
+        ],
+      ),
     );
   }
 
@@ -138,10 +141,10 @@ class DefaultMessageWidget extends StatelessWidget {
   }
 
   _buildCreatedTime() {
-    String showTime = WechatDateFormat.format(messageModel.createdAt, dayOnly: false);
+    String showTime = DateFormatUtils.format(messageModel.createdAt, dayOnly: false);
     return Container(
-      padding: const EdgeInsets.only(top: 4),
-      child: Text(showTime),
+      padding: const EdgeInsets.only(top: 10),
+      child: Text(showTime, style: const TextStyle(fontSize: 10, color: Colors.grey)),
     );
   }
 }
