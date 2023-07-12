@@ -33,6 +33,8 @@ class _ChatListWidgetState extends State<ChatListWidget> {
       builder: (BuildContext context, AsyncSnapshot<List<MessageModel>> snapshot) {
         return snapshot.connectionState == ConnectionState.active
             ? ListView.builder(
+                // 解决ListView数据量较少时无法滑动问题
+                physics: const AlwaysScrollableScrollPhysics(),
                 shrinkWrap: true,
                 reverse: true,
                 padding: widget.padding,

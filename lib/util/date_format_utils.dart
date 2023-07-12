@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 
 class DateFormatUtils {
@@ -7,10 +6,8 @@ class DateFormatUtils {
   static String format(int millisecondsSinceEpoch,{bool dayOnly = true}) {
     // 获取当前日期
     DateTime nowDate = getZhCurrentDateTime();
-    debugPrint('打印Now日期时间：${DateFormat('yyyy年M月d日 HH:mm:ss').format(nowDate)}');
     // 传入的日期
     DateTime targetDate = DateTime.fromMillisecondsSinceEpoch(millisecondsSinceEpoch);
-    debugPrint('打印target日期时间：${DateFormat('yyyy年M月d日 HH:mm:ss').format(targetDate)}');
     String prefix = "";
     if(nowDate.year != targetDate.year) {
       prefix = DateFormat('yyyy年M月d日').format(targetDate);
