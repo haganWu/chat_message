@@ -54,6 +54,14 @@ class ChatController implements IChatController {
   }
 
   @override
+  void deleteMessage(MessageModel messageModel) {
+    if (messageStreamController.isClosed) return;
+    initialMessageList.remove(messageModel);
+    messageStreamController.sink.add(initialMessageList);
+    scrollToLastMessage();
+  }
+
+  @override
   void loadMoreData(List<MessageModel> messageList) {
     // List反转后是从底部向上展示，因此消息顺序也需要进行反转
     messageList = List.from(messageList.reversed);
@@ -87,10 +95,13 @@ class ChatController implements IChatController {
       message.showCreatedTime = false;
     }
   }
+
 }
 
 abstract class IChatController {
   void addMessage(MessageModel messageModel);
+
+  void deleteMessage(MessageModel messageModel);
 
   void loadMoreData(List<MessageModel> messageList);
 }
