@@ -57,8 +57,12 @@ class ChatController implements IChatController {
   void deleteMessage(MessageModel messageModel) {
     if (messageStreamController.isClosed) return;
     initialMessageList.remove(messageModel);
+    // 重新计算日期
+    pelletShow.clear();
+    for(var message in initialMessageList.reversed){
+      inflateMessage(message);
+    }
     messageStreamController.sink.add(initialMessageList);
-    scrollToLastMessage();
   }
 
   @override

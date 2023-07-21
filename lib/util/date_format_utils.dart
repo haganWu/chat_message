@@ -29,6 +29,12 @@ class DateFormatUtils {
     return '$prefix $suffix';
   }
 
+  /// 格式化日期时间：6/18 13:33
+  static String formatYMd(int millisecondsSinceEpoch) {
+    DateTime targetDate = DateTime.fromMillisecondsSinceEpoch(millisecondsSinceEpoch);
+    return DateFormat('M/d h:mm').format(targetDate);
+  }
+
   static DateTime getZhCurrentDateTime() {
     return DateTime.now().toUtc().add(const Duration(hours: 8));
   }
