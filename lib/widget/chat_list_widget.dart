@@ -48,6 +48,7 @@ class _ChatListWidgetState extends State<ChatListWidget> {
                     messageWidget: messageWidgetBuilder,
                     onBubbleTap: widget.onBubbleTap,
                     onBubbleLongPress: widget.onBubbleLongPress,
+                    fontSize: 16,
                   );
                 })
             : const Center(
